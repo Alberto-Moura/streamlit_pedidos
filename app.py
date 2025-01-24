@@ -141,8 +141,6 @@ def review_page():
                 lambda x: next((p["entry_date"] for p in products if p["entry"] == x), "N/A")
             )
             st.dataframe(summary_by_entry, use_container_width=True)
-
-        with col2:
             
          # Exibição da tabela detalhada
         st.subheader("Detalhamento do Pedido")
