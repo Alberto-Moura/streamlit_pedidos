@@ -114,41 +114,37 @@ def main_page():
 def review_page():
     st.title("Conferência do Pedido")
     
-    col1 = st.columns(2)
-    with col1:
-        if st.session_state.orders:
-            df_orders = pd.DataFrame(st.session_state.orders)
-    
-            total_pieces = df_orders["quantidade"].sum()
-            total_value = df_orders["valor_total"].sum()
-    
-            st.subheader("Resumo do Pedido")
-            cols = st.columns(2)
-            with cols[0]:
-                st.metric(label="Total de Peças", value=total_pieces)
-            with cols[1]:
-                st.metric(label="Valor Total (R$)", value=f"{total_value:.2f}")
-    
-            selected_franchisee = df_orders.iloc[0]["codigo_franqueado"]
-            franchisee_name = franchisee_df.loc[franchisee_df["code"] == selected_franchisee, "store_name"].values[0]
-            st.write(f"**Franqueado:** {selected_franchisee} - {franchisee_name}")
-            st.write(f"**Condição de Pagamento:** {df_orders.iloc[0]['condicao_pagamento']}")
-    
-            # Resumo por entrada
-            st.subheader("Resumo por Entrada")
-            summary_by_entry = df_orders.groupby("numero_entrada")[["quantidade", "valor_total"]].sum()
-            summary_by_entry["Data de Faturamento"] = summary_by_entry.index.map(
-                lambda x: next((p["entry_date"] for p in products if p["entry"] == x), "N/A")
-            )
-            st.dataframe(summary_by_entry, use_container_width=True)
+    if st.session_state.orders:
+        df_orders = pd.DataFrame(st.session_state.orders)
 
-        col1 = st.columns(1)
-        with col1:
-             # Exibição da tabela detalhada
-            st.subheader("Detalhamento do Pedido")
-            display_df = df_orders.drop(columns=["codigo_franqueado", "condicao_pagamento", "data_faturamento"])
-            display_df.reset_index(drop=True, inplace=True)
-            st.dataframe(display_df, use_container_width=True)
+        total_pieces = df_orders["quantidade"].sum()
+        total_value = df_orders["valor_total"].sum()
+
+        st.subheader("Resumo do Pedido")
+        cols = st.columns(2)
+        with cols[0]:
+            st.metric(label="Total de Peças", value=total_pieces)
+        with cols[1]:
+            st.metric(label="Valor Total (R$)", value=f"{total_value:.2f}")
+
+        selected_franchisee = df_orders.iloc[0]["codigo_franqueado"]
+        franchisee_name = franchisee_df.loc[franchisee_df["code"] == selected_franchisee, "store_name"].values[0]
+        st.write(f"**Franqueado:** {selected_franchisee} - {franchisee_name}")
+        st.write(f"**Condição de Pagamento:** {df_orders.iloc[0]['condicao_pagamento']}")
+
+        # Resumo por entrada
+        st.subheader("Resumo por Entrada")
+        summary_by_entry = df_orders.groupby("numero_entrada")[["quantidade", "valor_total"]].sum()
+        summary_by_entry["Data de Faturamento"] = summary_by_entry.index.map(
+            lambda x: next((p["entry_date"] for p in products if p["entry"] == x), "N/A")
+        )
+        st.dataframe(summary_by_entry, use_container_width=True)
+
+         # Exibição da tabela detalhada
+        st.subheader("Detalhamento do Pedido")
+        display_df = df_orders.drop(columns=["codigo_franqueado", "condicao_pagamento", "data_faturamento"])
+        display_df.reset_index(drop=True, inplace=True)
+        st.dataframe(display_df, use_container_width=True)
 
         # Botões separados
         col1, col2 = st.columns(2)
