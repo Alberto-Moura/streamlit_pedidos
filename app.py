@@ -89,7 +89,7 @@ def main_page():
     product_df["Quantidade"] = quantities
 
     # Botões separados
-    col1, col2 = st.columns(2, 2)
+    col1, col2 = st.columns(2)
     with col1:
         if st.button("Adicionar ao Pedido"):
             st.session_state.orders = []
