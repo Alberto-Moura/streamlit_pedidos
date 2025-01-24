@@ -170,8 +170,8 @@ def review_page():
                         file_name=csv_file,
                         mime="text/csv"
                     )
-        else:
-            st.info("Nenhum pedido adicionado ainda.")
+            else:
+                st.info("Nenhum pedido adicionado ainda.")
 
 if "page" not in st.session_state:
     st.session_state.page = "Captação de Pedidos"
