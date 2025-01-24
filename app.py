@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 from datetime import date
 
+# Configuração da Página
+st.set_page_config(page_title="Captação de Pedidos", layout="wide")
+
 # Dados iniciais
 products = [
     {"code": "P001", "name": "Camiseta", "sizes": ["P", "M", "G"], "colors": ["Vermelho", "Azul"], "price": 50.0, "image": "https://luposport.vtexassets.com/arquivos/ids/225845-1200-auto?v=638621663186470000&width=1200&height=auto&aspect=true", "entry": "Entrada 1", "grade": {"P": 10, "M": 15, "G": 20}, "entry_date": "2025-02-01"},
