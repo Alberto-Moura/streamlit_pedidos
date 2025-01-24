@@ -114,7 +114,7 @@ def main_page():
 def review_page():
     st.title("Conferência do Pedido")
     
-    col1, col2 = st.columns(2)
+    col1 = st.columns(2)
     with col1:
         if st.session_state.orders:
             df_orders = pd.DataFrame(st.session_state.orders)
@@ -141,15 +141,17 @@ def review_page():
                 lambda x: next((p["entry_date"] for p in products if p["entry"] == x), "N/A")
             )
             st.dataframe(summary_by_entry, use_container_width=True)
-            
-         # Exibição da tabela detalhada
-        st.subheader("Detalhamento do Pedido")
-        display_df = df_orders.drop(columns=["codigo_franqueado", "condicao_pagamento", "data_faturamento"])
-        display_df.reset_index(drop=True, inplace=True)
-        st.dataframe(display_df, use_container_width=True)
+
+        col1 = st.columns(1)
+        with col1:
+             # Exibição da tabela detalhada
+            st.subheader("Detalhamento do Pedido")
+            display_df = df_orders.drop(columns=["codigo_franqueado", "condicao_pagamento", "data_faturamento"])
+            display_df.reset_index(drop=True, inplace=True)
+            st.dataframe(display_df, use_container_width=True)
 
         # Botões separados
-        col1, col2 = st.columns(2, 2)
+        col1, col2 = st.columns(2)
         with col1:
             if st.button("Voltar e Corrigir"):
                 for order in st.session_state.orders:
